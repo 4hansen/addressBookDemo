@@ -1,5 +1,42 @@
-<h1>New Contact</h1>
+<%# Form  %>
 
-<%= render 'form', contact: @contact %>
+<%# TODO-- switch styling to layout  %>
 
-<%= link_to 'Back', contacts_path %>
+<h1 class="text-center">Add Contact</h1>
+
+<div class="container">
+    <div class="justify-content-start col-8">
+        <%= form_for :contact, url: contacts_path do |f| %>
+            
+            <% if @contact.errors.any? %>
+                <% @contact.errors.full_messages.each do |msg| %>
+                    <div><%= msg %></div>
+                    <% end %>
+            <% end %>
+
+            <div class="form-group row">
+                <label><%= f.label :first_name %></label>
+                <%= f.text_field :first_name, placeholder: "Ex. Matt", class: "form-control" %>
+            </div>
+
+            <div class="form-group row">
+                <label><%= f.label :last_name %></label>
+                <%= f.text_field :last_name, placeholder: "Besler", class: "form-control" %>
+            </div>
+
+            <div class="form-group row">
+                <label><%= f.label :primary_phone %></label>
+                <%= f.text_field :primary_phone, placeholder: "5555555555", class: "form-control" %>
+            </div>
+
+            <div class="form-group row">
+                <label><%= f.label :email %></label>
+                <%= f.text_field :email, placeholder: "mbesler@sportingkc.com", class: "form-control" %>
+            </div>
+
+            <p>
+                <%= f.submit %>
+            </p>
+        <% end %>
+    </div>
+</div>

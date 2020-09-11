@@ -1,6 +1,42 @@
-<h1>Editing Contact</h1>
+<%# Show view of single contact %>
 
-<%= render 'form', contact: @contact %>
 
-<%= link_to 'Show', @contact %> |
-<%= link_to 'Back', contacts_path %>
+<h1 class="text-center">Edit Contact</h1>
+
+<div class="container">
+  <div class="justify-content-start col-8">
+    <%= form_for :contact, url: contact_path(@contact), method: :patch do |f| %>
+        
+        <% if @contact.errors.any? %>
+            <% @contact.errors.full_messages.each do |msg| %>
+                <div><%= msg %></div>
+                <% end %>
+        <% end %>
+
+        <div class="form-group row">
+            <label><%= f.label :first_name %></label>
+            <%= f.text_field :first_name, placeholder: "First Name", class: "form-control" %>
+        </div>
+
+        <div class="form-group row">
+            <label><%= f.label :last_name %></label>
+            <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control"  %>
+        </div>
+
+        <div class="form-group row">
+            <label><%= f.label :primary_phone %></label>
+            <%= f.text_field :primary_phone, placeholder: "Phone Number", class: "form-control" %>
+        </div>
+
+        <div class="form-group row">
+            <label><%= f.label :email %></label>
+            <%= f.text_field :email, placeholder: "Email Address", class: "form-control" %>
+        </div>
+
+        <p>
+            <%= f.submit %>
+        </p>
+
+    <% end %>
+    </div>
+</div>

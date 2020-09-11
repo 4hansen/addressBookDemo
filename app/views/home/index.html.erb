@@ -1,0 +1,20 @@
+<div class="text-center mb-4"><h1>Konnect</h1></div>
+
+<form>
+    <div>
+
+    <% if current_user %>
+        <div class="form-label-group">
+            <%= link_to  "Sign out", destroy_user_session_path, method: :delete, :class =>'btn btn-danger btn-block' %>
+        </div>
+    <% else %>
+        <div class="form-label-group">
+            <%= link_to  "Sign In", new_user_session_path, :class => 'btn btn-primary btn-block' %>
+        </div>
+        <div class="form-label-group">
+            <%= link_to  "Register", new_user_registration_path, :class => 'btn btn-success btn-block' %>
+        </div>
+    <% end %>
+    </div>
+
+</form>

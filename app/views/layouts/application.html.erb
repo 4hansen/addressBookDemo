@@ -5,12 +5,28 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+  
+<%# Navigation Bar %>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container d-flex justify-content-between">
+      <a href="/contacts" class="navbar-brand d-flex align-items-center">
+        <strong>Konnect</strong>
+      </a>
+      <%= link_to  "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger" %>
+
+    </div>
+  </div>
+    
+
     <%= render 'layouts/alerts' %>
     <%= yield %>
+
+
   </body>
 </html>

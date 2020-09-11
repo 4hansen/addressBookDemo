@@ -4,12 +4,21 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    set_contacts
+
+    # initialize_search
+    # handle_search_name
+  end
+
+  #Remove search criteria
+  def clear
+      session[:search_name] = nil
   end
 
   # GET /contacts/1
   # GET /contacts/1.json
   def show
+    @contact = set_contact
   end
 
   # GET /contacts/new
@@ -19,17 +28,20 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1/edit
   def edit
+    @contact = set_contact
   end
 
   # POST /contacts
   # POST /contacts.json
   def create
+    
     @contact = Contact.new(contact_params)
+    @contact.user = current_user
 
     respond_to do |format|
       if @contact.save
         format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
-        format.json { render :show, status: :created, location: @contact }
+        format.json { render :index, status: :created, location: @contact }
       else
         format.html { render :new }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
@@ -40,6 +52,7 @@ class ContactsController < ApplicationController
   # PATCH/PUT /contacts/1
   # PATCH/PUT /contacts/1.json
   def update
+
     respond_to do |format|
       if @contact.update(contact_params)
         format.html { redirect_to @contact, notice: 'Contact was successfully updated.' }
@@ -62,13 +75,33 @@ class ContactsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # User owned contact (singular)
     def set_contact
-      @contact = Contact.find(params[:id])
+      @contact ||= current_user.contacts.find(params[:id])
     end
+
+    # User owned contact list
+    def set_contacts
+      @contacts ||= current_user.contacts
+    end
+
+    # def initialize_search
+    #   session[:search_name] ||= params[:search_name]
+    # end
+
+    # def handle_search_name
+    #   if [:search_name]
+    #     @contacts = set_contacts.where("lower(last_name) LIKE ?", "%#{session[:search_name].downcase}%")
+    #     clear
+    #   else
+    #     @contacts = set_contacts
+    #   end
+    # end
 
     # Only allow a list of trusted parameters through.
     def contact_params
       params.require(:contact).permit(:first_name, :last_name, :primary_phone, :email, :user_id)
     end
+
+
 end
