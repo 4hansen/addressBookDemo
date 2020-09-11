@@ -4,13 +4,13 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    set_contacts
-
-    # initialize_search
-    # handle_search_name
+    initialize_search
+    handle_search_name
+    clear
   end
 
   #Remove search criteria
+
   def clear
       session[:search_name] = nil
   end
@@ -85,18 +85,18 @@ class ContactsController < ApplicationController
       @contacts ||= current_user.contacts
     end
 
-    # def initialize_search
-    #   session[:search_name] ||= params[:search_name]
-    # end
+    def initialize_search
+      session[:search_name] ||= params[:search_name]
+    end
 
-    # def handle_search_name
-    #   if [:search_name]
-    #     @contacts = set_contacts.where("lower(last_name) LIKE ?", "%#{session[:search_name].downcase}%")
-    #     clear
-    #   else
-    #     @contacts = set_contacts
-    #   end
-    # end
+    def handle_search_name
+      if [:search_name]
+        @contacts = set_contacts.where("first_name LIKE ?", "%#{session[:search_name]}%").or(set_contacts.where("last_name LIKE ?", "%#{session[:search_name]}%"))
+        clear
+      else
+        @contacts = set_contact
+      end
+    end
 
     # Only allow a list of trusted parameters through.
     def contact_params

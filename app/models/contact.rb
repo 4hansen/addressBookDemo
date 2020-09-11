@@ -1,5 +1,7 @@
 class Contact < ApplicationRecord
   belongs_to :user
+  #equivalent of define (no preprocess)
+  include Filterable
   
 # Validate
     # First name must exist
